@@ -1,0 +1,41 @@
+<!--index.wxml-->
+<view class="jjjl_index">
+  <searchInput></searchInput>
+  <view class="index_swiper">
+    <swiper indicator-dots="true" autoplay="true" interval="3000" circular="true">
+      <swiper-item 
+      wx:for="{{photoList}}" 
+      wx:key="id">
+        <navigator>
+          <image mode="widthFix" src="{{item.source}}"></image>
+        </navigator>
+      </swiper-item>
+    </swiper>
+  </view>
+
+  <view class="index_nav">
+    <navigator >
+      <image mode="widthFix" src="../../icon/categories.png" />
+      <text space="ensp">分类</text>
+    </navigator>
+    <navigator url="../goods_list/goods_list">
+      <image mode="widthFix" src="../../icon/promotion.png" />
+      <text space="ensp">促销</text>
+    </navigator>
+    <navigator >
+      <image mode="widthFix" src="../../icon/market.png" />
+      <text space="ensp">市场</text>
+    </navigator>
+    <navigator >
+      <image mode="widthFix" src="../../icon/book.png" />
+      <text space="ensp">书籍</text>
+    </navigator>
+  </view>
+  <view class="index_selected">
+    <view class="item" wx:for="{{itemList}}" wx:key="id">
+      <image src="{{item.source}}"></image>
+      <view class="title">{{item.title}}</view>
+      <view class="price"><text style="font-size: 25rpx;">￥</text>{{item.price}}</view>
+    </view>
+  </view>
+</view>
