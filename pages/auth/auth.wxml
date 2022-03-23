@@ -1,2 +1,8 @@
 <!--pages/auth/auth.wxml-->
-<text>pages/auth/auth.wxml</text>
+<button bindtap="handleUserInfo">授权用户信息</button>
+<!-- <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">2345</button>
+<view class="root" wx:if="{{!portrait}}">
+  <image class="portrait" src="{{portrait}}"></image>
+  <text>{{nickName}}</text>
+</view> -->
+

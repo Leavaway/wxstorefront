@@ -5,39 +5,66 @@ Page({
       {
         id:1,
         name:"八重神子",
-        source:"https://s3.bmp.ovh/imgs/2022/02/42529906024054a2.jpg"
+        source:"https://s3.bmp.ovh/imgs/2022/02/8bbfb7e017460c3f.jpg"
       },{
         id:2,
         name:"枫原万叶",
-        source:"https://s3.bmp.ovh/imgs/2022/02/fc360e9db71e68f3.jpg"
+        source:"https://s3.bmp.ovh/imgs/2022/02/278add55a041f8e6.jpg"
       },{
         id:3,
         name:"胡桃",
-        source:"https://s3.bmp.ovh/imgs/2022/02/185c598bd1a81e79.jpg"
+        source:"https://s3.bmp.ovh/imgs/2022/02/9e266fff9796c274.jpg"
       }
     ],
     itemList:[
       {
         id:1,
-        title:"钟莉限时冬季促销，九毛九一只",
-        price:"0.99",
-        source:"https://s3.bmp.ovh/imgs/2022/02/f77389414654486f.png"
+        title:"2022版精讲精练历史与社会道德与法治七年级下册知识点解读",
+        price:"20",
+        source:"https://s3.bmp.ovh/imgs/2022/02/8bbfb7e017460c3f.jpg"
       },{
         id:2,
-        title:"球形闪电原神特供版，买到就是赚到",
-        price:"9.9",
-        source:"https://s3.bmp.ovh/imgs/2022/02/ca8d1b332d3c66af.png"
+        title:"2022版精讲精练历史与社会道德与法治七年级下册知识点解读",
+        price:"20",
+        source:"https://s3.bmp.ovh/imgs/2022/02/278add55a041f8e6.jpg"
       },{
         id:3,
-        title:"LPL专属饭堂碗筷限定套装，过了这村就没这店",
-        price:"100",
-        source:"https://s3.bmp.ovh/imgs/2022/02/a3a5d5616504dbf1.png"
+        title:"2022版精讲精练历史与社会道德与法治七年级下册知识点解读",
+        price:"20",
+        source:"https://s3.bmp.ovh/imgs/2022/02/9e266fff9796c274.jpg"
       },{
         id:4,
-        title:"没想好就随便放一个",
-        price:"9999",
-        source:"https://s3.bmp.ovh/imgs/2022/02/922cb8733a387664.jpeg"
+        title:"2022版精讲精练历史与社会道德与法治七年级下册知识点解读",
+        price:"20",
+        source:"https://s3.bmp.ovh/imgs/2022/02/2afc0305fee0e72e.jpg"
       }
     ]
-  }
+  },
+  onLoad: function(options){
+    const init = []
+    wx.setStorageSync('history', init)
+  },
+
+  onReady: function () {
+    //获得dialog组件
+    this.dialog = this.selectComponent("#dialog");
+    const phone = wx.getStorageSync('phone')
+    if(phone&&Date.now()-phone.time<1000*60*60*24*7){
+      this.dialog.hideDialog();
+    }
+},
+
+  showDialog: function(){
+      this.dialog.showDialog();
+  },
+
+  confirmEvent: function(){
+      this.dialog.hideDialog();
+  },
+  getPhoneNumber(e){
+    // 用户点击授权后，这里可以做一些登陆操作
+    
+  },
+
+
 })

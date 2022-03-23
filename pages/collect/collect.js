@@ -1,18 +1,22 @@
 // pages/collect/collect.js
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    collect:{}
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    const cache = wx.getStorageSync('collect')
+    this.setData({
+      collect:cache.data
+    })
   },
 
   /**
@@ -62,5 +66,10 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+  handleClick(e){
+    wx.navigateTo({
+      url: '../goods_detail/goods_detail?gid='+e.currentTarget.dataset.gid,
+    })
   }
 })

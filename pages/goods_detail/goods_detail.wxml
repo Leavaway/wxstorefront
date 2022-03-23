@@ -11,8 +11,9 @@
 <view class="goods_price">￥{{goods_detail.price}}</view>
 <view class="goods_name_row">
     <view class="goods_name">{{goods_detail.title}}</view>
-    <view class="goods_collect">
-        <text class="iconfont icon-shoucang"></text>
+    <view class="goods_collect" bindtap="handleCollect">
+        <text class="iconfont icon-shoucang" wx:if="{{!isCollect}}"></text>
+        <text class="iconfont icon-shoucangxuanzhong" wx:if="{{isCollect}}" ></text>
         <view class="collect_text">收藏</view>
     </view>
 </view>
@@ -42,7 +43,7 @@
     <view class="tool_item btn_cart" bindtap="handleCartAdd">
         加入购物车
     </view>
-    <view class="tool_item btn_buy">
+    <view class="tool_item btn_buy" bindtap="handleSuperCartAdd" >
         立即购买
     </view>
 </view>

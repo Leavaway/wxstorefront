@@ -1,2 +1,46 @@
-<!--pages/pay/pay.wxml-->
-<text>pages/pay/pay.wxml</text>
+<!--pages/cart/cart.wxml-->
+
+<!-- 顶部地址栏 -->
+<view class="revice_address_row2">
+    <text class="iconfont icon-shouhuodizhi"></text>
+    <view class="address">
+        <text class="shouhuo1" space="nbsp">{{address.userName}}         {{address.telNumber}}</text>
+        <text class="shouhuo2" space="nbsp">{{address.provinceName}}{{address.cityName}}{{address.countyName}}{{address.detailInfo}}</text>
+    </view>
+</view>
+
+<!-- 购物车内容 -->
+<view class="cart_content" wx:if="{{cart.data[0]}}">
+    <view class="cart_main">
+        <view class="cart_item" wx:for="{{cart.data}}" wx:key="gid">
+            <navigator class="cart_img_wrap" url="../goods_detail/goods_detail?gid={{item.gid}}">
+                <image mode="widthFix" src="{{item.photo}}"/>
+            </navigator>
+            <view class="cart_info_wrap">
+                <view class="title_show">
+                    <view class="goods_name">{{item.title}}</view>
+                </view>
+                <view class="goods_price_wrap">
+                    <view class="goods_price"><text class="goods_price_sign">￥</text>{{item.price}}</view>
+                    <view class="cart_num_tool">
+                      <view class="goods_num">{{item.amount}}</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
+
+<!-- 底部工具栏 -->
+<view class="footer_tool">
+    <view class="total_price_wrap">
+        <view class="total_price">
+            合计: <text class="total_price_text"><text class="sign">￥</text>{{totalPrice}}</text>
+        </view>
+        <view >包含运费</view>
+    </view>
+    <view class="order_pay_wrap" bindtap="handlePay">
+        支付({{totalNum}})
+    </view>
+</view>
+

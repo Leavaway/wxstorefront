@@ -1,2 +1,20 @@
 <!--pages/order/order.wxml-->
-<text>pages/order/order.wxml</text>
+<!-- 购物车内容 -->
+<view class="cart_content" wx:if="{{order[0]}}">
+    <view class="cart_main">
+        <view class="cart_item" wx:for="{{order}}" wx:key="orderSerialNum">
+            <view class="cart_img_wrap">
+                <image mode="widthFix" src="{{item.orderPhoto}}"/>
+            </view>
+            <view class="cart_info_wrap">
+                <view class="title_show">
+                    <view class="goods_name"><text class="titles">订单编号:</text> {{item.orderSerialNum}}</view>
+                    <view class="goods_name"><text class="titles">快递单号: </text>SF157897456486</view>
+                </view>
+                <view class="goods_price_wrap">
+                    <view class="goods_price"><text class="goods_price_sign">￥</text>{{item.orderTotalPrice}}</view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

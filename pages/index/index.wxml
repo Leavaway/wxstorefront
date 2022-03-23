@@ -1,12 +1,19 @@
 <!--index.wxml-->
 <view class="jjjl_index">
-  <searchInput></searchInput>
+  <dialog id='dialog' 
+      title='登录提示' 
+      content='小程序需要您的授权才能提供更好的服务哦' 
+      confirmText='知道了'
+      bind:confirmEvent='confirmEvent'
+      bind:getphonenumber='getPhoneNumber'>
+  </dialog>
+  <!-- <searchInput></searchInput> -->
   <view class="index_swiper">
     <swiper indicator-dots="true" autoplay="true" interval="3000" circular="true">
       <swiper-item 
       wx:for="{{photoList}}" 
       wx:key="id">
-        <navigator>
+        <navigator url="../goods_detail/goods_detail?gid={{item.id}}">
           <image mode="widthFix" src="{{item.source}}"></image>
         </navigator>
       </swiper-item>
@@ -14,28 +21,28 @@
   </view>
 
   <view class="index_nav">
-    <navigator >
+    <navigator url="../goods_list/goods_list?category=all">
       <image mode="widthFix" src="../../icon/categories.png" />
-      <text space="ensp">分类</text>
+      <text space="ensp">全部</text>
     </navigator>
-    <navigator url="../goods_list/goods_list">
+    <navigator url="../goods_list/goods_list?category=seven">
       <image mode="widthFix" src="../../icon/promotion.png" />
-      <text space="ensp">促销</text>
+      <text space="ensp">七年级</text>
     </navigator>
-    <navigator >
+    <navigator url="../goods_list/goods_list?category=eight">
       <image mode="widthFix" src="../../icon/market.png" />
-      <text space="ensp">市场</text>
+      <text space="ensp">八年级</text>
     </navigator>
-    <navigator >
+    <navigator url="../goods_list/goods_list?category=nine">
       <image mode="widthFix" src="../../icon/book.png" />
-      <text space="ensp">书籍</text>
+      <text space="ensp">九年级</text>
     </navigator>
   </view>
   <view class="index_selected">
-    <view class="item" wx:for="{{itemList}}" wx:key="id">
+    <navigator class="item" wx:for="{{itemList}}" wx:key="id" url="../goods_detail/goods_detail?gid={{item.id}}">
       <image src="{{item.source}}"></image>
       <view class="title">{{item.title}}</view>
       <view class="price"><text style="font-size: 25rpx;">￥</text>{{item.price}}</view>
-    </view>
+    </navigator>
   </view>
 </view>

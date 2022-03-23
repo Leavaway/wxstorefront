@@ -1,14 +1,12 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/category/category",
     "pages/goods_list/goods_list",
     "pages/goods_detail/goods_detail",
     "pages/cart/cart",
     "pages/collect/collect",
     "pages/order/order",
-    "pages/feedback/feedback",
-    "pages/login/login",
+    "pages/history/history",
     "pages/auth/auth",
     "pages/pay/pay",
     "pages/search/search",
@@ -27,12 +25,6 @@
         "text": "首页",
         "iconPath": "icon/home.png",
         "selectedIconPath": "icon/home_fill.png"
-      },
-      {
-        "pagePath": "pages/category/category",
-        "text": "分页",
-        "iconPath": "icon/category.png",
-        "selectedIconPath": "icon/category_fill.png"
       },
       {
         "pagePath": "pages/cart/cart",

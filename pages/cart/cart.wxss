@@ -85,12 +85,20 @@ page {
   flex-direction: column;
   justify-content: space-around;
 }
-.cart_content .cart_main .cart_item .cart_info_wrap .goods_name {
+.cart_content .cart_main .cart_item .cart_info_wrap .title_show {
+  display: flex;
+  flex-direction: row;
+}
+.cart_content .cart_main .cart_item .cart_info_wrap .title_show .goods_name {
+  flex: 10;
   display: -webkit-box;
   overflow: hidden;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   color: #666;
+}
+.cart_content .cart_main .cart_item .cart_info_wrap .title_show .icon-shanchu {
+  flex: 2;
 }
 .cart_content .cart_main .cart_item .cart_info_wrap .goods_price_wrap {
   display: flex;
@@ -115,7 +123,14 @@ page {
   border: 1rpx solid #ccc;
 }
 .cart_content .cart_main .cart_item .cart_info_wrap .goods_price_wrap .cart_num_tool .goods_num {
-  width: 55rpx;
+  width: 15rpx;
+  height: 55rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.cart_content .cart_main .cart_item .cart_info_wrap .goods_price_wrap .cart_num_tool .num_input {
+  width: 45rpx;
   height: 55rpx;
   display: flex;
   justify-content: center;
@@ -160,7 +175,7 @@ page {
 @font-face {
   font-family: "iconfont";
   /* Project id 3197043 */
-  src: url('//at.alicdn.com/t/font_3197043_jbo6f0vbhm.woff2?t=1645500678401') format('woff2'), url('//at.alicdn.com/t/font_3197043_jbo6f0vbhm.woff?t=1645500678401') format('woff'), url('//at.alicdn.com/t/font_3197043_jbo6f0vbhm.ttf?t=1645500678401') format('truetype');
+  src: url('//at.alicdn.com/t/font_3197043_r6z92ijh3cl.woff2?t=1645767479394') format('woff2'), url('//at.alicdn.com/t/font_3197043_r6z92ijh3cl.woff?t=1645767479394') format('woff'), url('//at.alicdn.com/t/font_3197043_r6z92ijh3cl.ttf?t=1645767479394') format('truetype');
 }
 .iconfont {
   font-family: "iconfont" !important;
@@ -168,6 +183,9 @@ page {
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+.icon-shanchu:before {
+  content: "\e8b6";
 }
 .icon-shouhuodizhi:before {
   content: "\e657";

@@ -40,6 +40,10 @@ page {
   align-items: center;
   border-left: 1rpx solid #000;
 }
+.goods_name_row .goods_collect .iconfont {
+  color: #eb4450;
+  font-size: 40rpx;
+}
 .goods_name_row .goods_collect .collect_text {
   font-size: 20rpx;
 }
