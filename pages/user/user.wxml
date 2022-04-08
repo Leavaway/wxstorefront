@@ -26,15 +26,15 @@
         <view class="orders_wrap">
             <view class="orders_title">我的订单</view>
             <view class="order_content">
-                <navigator url="../order/order?phone=15757610036&orderStatus=1">
+                <navigator url="../order/order?orderStatus=1">
                     <view class="iconfont icon-quanbudingdan"></view>
                     <view class="order_name">全部订单</view>
                 </navigator>
-                <navigator url="../order/order?phone=15757610036&orderStatus=2">
+                <navigator url="../order/order?orderStatus=2">
                     <view class="iconfont icon-daishouhuo"></view>
                     <view class="order_name">待收货</view>
                 </navigator>
-                <navigator url="../order/order?phone=15757610036&orderStatus=3">
+                <navigator url="../order/order?orderStatus=3">
                     <view class="iconfont icon-shouhou"></view>
                     <view class="order_name">售后</view>
                 </navigator>

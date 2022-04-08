@@ -23,9 +23,9 @@ Page({
     
     async function setUrlBe(){
       if(options["category"]==="all"){
-        setUrl = "https://"+app.globalData.ip+"/goods/allItems/";
+        setUrl = app.globalData.ip+"/goods/allItems/";
       }else{
-        setUrl = "https://"+app.globalData.ip+"/goods/itemLists/?category="+options["category"];
+        setUrl = app.globalData.ip+"/goods/itemLists/?category="+options["category"];
       }
     }
 
@@ -33,8 +33,7 @@ Page({
       try{
         const setU = await setUrlBe();
         const res = await request({url:setUrl});
-        const hide = await wx.hideLoading();
-        console.log("res",res)
+
         that.setData({
           itemList:res.data
         })
@@ -43,6 +42,7 @@ Page({
       }
     };
     getDetail();
+    wx.hideLoading();
 
   },
 

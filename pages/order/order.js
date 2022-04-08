@@ -15,12 +15,13 @@ Page({
   onLoad: function (options) {
     let that = this;
     let app = getApp()
-    let Url = "https://"+app.globalData.ip+"/order/detail?phone="+options["phone"]+"&orderStatus="+options["orderStatus"];
+    const phone = wx.getStorageSync('phone')
+    let Url = app.globalData.ip+"/order/detail?phone="+phone.data+"&orderStatus="+options["orderStatus"];
     async function getCart(){
       try{
         const a  = await wx.showLoading();
         const res = await request({url:Url});
-        const hide = await wx.hideLoading();
+        
        that.setData({
           order:res.data,
        })
@@ -29,6 +30,7 @@ Page({
       }
     };
     getCart()
+    wx.hideLoading();
   },
 
   /**

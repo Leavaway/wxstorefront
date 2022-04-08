@@ -11,10 +11,10 @@
   <view class="index_swiper">
     <swiper indicator-dots="true" autoplay="true" interval="3000" circular="true">
       <swiper-item 
-      wx:for="{{photoList}}" 
-      wx:key="id">
-        <navigator url="../goods_detail/goods_detail?gid={{item.id}}">
-          <image mode="widthFix" src="{{item.source}}"></image>
+      wx:for="{{itemList}}" 
+      wx:key="gid">
+        <navigator url="../goods_detail/goods_detail?gid={{item.gid}}">
+          <image mode="widthFix" src="{{item.photo[0]}}"></image>
         </navigator>
       </swiper-item>
     </swiper>
@@ -39,8 +39,8 @@
     </navigator>
   </view>
   <view class="index_selected">
-    <navigator class="item" wx:for="{{itemList}}" wx:key="id" url="../goods_detail/goods_detail?gid={{item.id}}">
-      <image src="{{item.source}}"></image>
+    <navigator class="item" wx:for="{{itemList}}" wx:key="gid" url="../goods_detail/goods_detail?gid={{item.gid}}">
+      <image src="{{item.photo[0]}}"></image>
       <view class="title">{{item.title}}</view>
       <view class="price"><text style="font-size: 25rpx;">￥</text>{{item.price}}</view>
     </navigator>

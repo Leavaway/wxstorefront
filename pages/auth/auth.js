@@ -15,19 +15,7 @@ Page({
   },
 
   onLoad:function(options){
-    let that = this
-    const token = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxe8c4d62827bb0bd1&secret=ef7ecbd22075b4a26c92f1e9fdeba051"
-    async function getToken(){
-      try{
-        const res = await request({url:token});
-        that.setData({
-          token: res.data.access_token
-        })
-      }catch(err){
-        console.log(err)
-      }
-    }
-    getToken()
+
   },
 
   handleUserInfo(e){
@@ -44,6 +32,9 @@ Page({
           portrait:userInfo.avatarUrl,
           nickName:userInfo.nickName
         })
+        wx.switchTab({
+          url: '../user/user',
+        })
       },
       fail:res=>{
         console.log("授权失败",res)
@@ -53,7 +44,7 @@ Page({
 
   getPhoneNumber(e){
     let that = this
-    console.log(e)
+
     const code = e.detail.code
     const token = this.data.token
     const phone = "https://api.weixin.qq.com/wxa/business/getuserphonenumber?access_token="+token;

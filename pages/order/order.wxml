@@ -9,7 +9,7 @@
             <view class="cart_info_wrap">
                 <view class="title_show">
                     <view class="goods_name"><text class="titles">订单编号:</text> {{item.orderSerialNum}}</view>
-                    <view class="goods_name"><text class="titles">快递单号: </text>SF157897456486</view>
+                    <view class="goods_name"><text class="titles">快递单号: </text>{{item.expressNumber}}</view>
                 </view>
                 <view class="goods_price_wrap">
                     <view class="goods_price"><text class="goods_price_sign">￥</text>{{item.orderTotalPrice}}</view>

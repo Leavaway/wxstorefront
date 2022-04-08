@@ -1,48 +1,39 @@
 // index.js
+
+import { request } from "../../request/good_request.js";
+
 Page({
   data:{
-    photoList:[
-      {
-        id:1,
-        name:"八重神子",
-        source:"https://s3.bmp.ovh/imgs/2022/02/8bbfb7e017460c3f.jpg"
-      },{
-        id:2,
-        name:"枫原万叶",
-        source:"https://s3.bmp.ovh/imgs/2022/02/278add55a041f8e6.jpg"
-      },{
-        id:3,
-        name:"胡桃",
-        source:"https://s3.bmp.ovh/imgs/2022/02/9e266fff9796c274.jpg"
-      }
-    ],
     itemList:[
-      {
-        id:1,
-        title:"2022版精讲精练历史与社会道德与法治七年级下册知识点解读",
-        price:"20",
-        source:"https://s3.bmp.ovh/imgs/2022/02/8bbfb7e017460c3f.jpg"
-      },{
-        id:2,
-        title:"2022版精讲精练历史与社会道德与法治七年级下册知识点解读",
-        price:"20",
-        source:"https://s3.bmp.ovh/imgs/2022/02/278add55a041f8e6.jpg"
-      },{
-        id:3,
-        title:"2022版精讲精练历史与社会道德与法治七年级下册知识点解读",
-        price:"20",
-        source:"https://s3.bmp.ovh/imgs/2022/02/9e266fff9796c274.jpg"
-      },{
-        id:4,
-        title:"2022版精讲精练历史与社会道德与法治七年级下册知识点解读",
-        price:"20",
-        source:"https://s3.bmp.ovh/imgs/2022/02/2afc0305fee0e72e.jpg"
-      }
     ]
   },
   onLoad: function(options){
     const init = []
     wx.setStorageSync('history', init)
+    var that = this
+    let app = getApp();
+    let linshi = []
+    wx.showLoading({
+      title: '正在加载',
+    })
+    async function getDetail(){
+      try{
+        let setUrl = app.globalData.ip+"/goods/allItems";
+        const res = await request({url:setUrl})
+        /* 此处原用 that.data.goods_detail = res.data 
+           进行赋值，但在request响应前就把此值给wxml页面渲染
+           造成页面空白，后采用setData */ 
+        that.setData({
+          itemList:res.data.slice(0,4),
+        })
+      }catch(err){
+        console.log(err);
+      }
+    };
+    getDetail()
+    wx.hideLoading({
+      success: (res) => {},
+    })
   },
 
   onReady: function () {

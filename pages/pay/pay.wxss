@@ -91,6 +91,7 @@ page {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-right: 20px;
 }
 .cart_content .cart_main .cart_item .cart_info_wrap .goods_price_wrap .cart_num_tool .num_input {
   width: 45rpx;

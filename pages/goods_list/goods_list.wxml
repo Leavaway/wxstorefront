@@ -1,5 +1,5 @@
 <!--pages/goods_list/goods_list.wxml-->
-<searchInput></searchInput>
+<!-- <searchInput></searchInput> -->
 <view class="first_tab">
     <navigator class="goods_item" wx:for="{{itemList}}" url="../goods_detail/goods_detail?gid={{item.gid}}" wx:key="gid">
         <view class="goods_img_wrap">

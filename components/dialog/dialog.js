@@ -62,25 +62,19 @@ Component({
 
     getPhoneNumber(e){
       let that = this
-      const token = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxe8c4d62827bb0bd1&secret=ef7ecbd22075b4a26c92f1e9fdeba051"
 
-      async function getToken(){
-        try{
-          const res = await request({url:token});
-          that.setData({
-            token:res.data.access_token
-          })
-        }catch(err){
-          console.log(err)
-        }
-      }
-      const code = e.detail.code
+
+      
       
 
       async function getPhone(){
         try{
           const tok = that.data.token
-          const phone = "https://api.weixin.qq.com/wxa/business/getuserphonenumber?access_token="+tok;
+          // const phone = "https://api.weixin.qq.com/wxa/business/getuserphonenumber?access_token="+tok;
+          const phone = "https://www.jingjiangjinglian.cn/phone/getPhone/";
+          // const phone = "http://127.0.0.1:8080/phone/getPhone/";
+          const code = e.detail.code
+
           const res = await request({url:phone,data:{
             code:code
           },method:"post"});
@@ -95,9 +89,8 @@ Component({
       }
 
       async function carry(){
-        const a = await getToken()
         const b = await getPhone()
-        console.log("load here")
+
       }
       carry()
       this.triggerEvent("getphonenumber");

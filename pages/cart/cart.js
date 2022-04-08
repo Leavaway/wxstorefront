@@ -16,13 +16,21 @@ Page({
 
   },
   onLoad: function(){
-
+    this.setData({
+      totalPrice:0,
+      totalNum:0,
+      allcheck:false,
+    })
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onShow: function (options) {
+    this.setData({
+      totalPrice:0,
+      totalNum:0,
+    })
     const phone = wx.getStorageSync('phone')
     // if(!phone||Date.now()-phone.time>1000*60*60*24*7){
     //   wx.navigateTo({
@@ -32,13 +40,13 @@ Page({
     // }
     let that = this;
     let app = getApp()
-    let Url = "https://"+app.globalData.ip+"/cart/getcart?phone="+phone.data;
-    let cartUrl = "https://"+app.globalData.ip+"/cart/setcart"
+    let Url = app.globalData.ip+"/cart/getcart?phone="+phone.data;
+    let cartUrl = app.globalData.ip+"/cart/setcart"
     async function getCart(){
       try{
-        const a  = await wx.showLoading();
+        // const a  = await wx.showLoading();
         const res = await request({url:Url});
-        const hide = await wx.hideLoading();
+        // const hide = await wx.hideLoading();
         const store = {
           time:Date.now(),
           data:res
@@ -49,18 +57,21 @@ Page({
         wx.setStorageSync('cart', store);
         let carts = wx.getStorageSync('cart');
         let prec = [];
-        for (let index = 0; index < carts.data.data.goods.length; index++) {
-          let c = carts.data.data.goods[index];
-          prec[index] = c
-          prec[index].checked = false
-       }
-       const s = {
-        time:Date.now(),
-        data:prec
-       }
-       that.setData({
-          cart:s,
-       })
+        if(carts.data.data){
+          for (let index = 0; index < carts.data.data.goods.length; index++) {
+            let c = carts.data.data.goods[index];
+            prec[index] = c
+            prec[index].checked = false
+         }
+         const s = {
+          time:Date.now(),
+          data:prec
+         }
+         that.setData({
+            cart:s,
+         })
+        }
+        
       }catch(err){
         console.log(err);
       }
@@ -73,18 +84,21 @@ Page({
       getCart();
     }else{
       let prec = []
-      for (let index = 0; index < carts.data.data.goods.length; index++) {
-        let c = carts.data.data.goods[index];
-        prec[index] = c
-        prec[index].checked = false;
+      if(carts.data.data){
+        for (let index = 0; index < carts.data.data.goods.length; index++) {
+          let c = carts.data.data.goods[index];
+          prec[index] = c
+          prec[index].checked = false;
+        }
+        const ss = {
+          time:Date.now(),
+          data:prec
+         }
+         that.setData({
+            cart:ss
+         })
       }
-      const ss = {
-        time:Date.now(),
-        data:prec
-       }
-       that.setData({
-          cart:ss
-       })
+      
     }
 
   
@@ -116,7 +130,7 @@ Page({
     cache.data.data.goods = cart
 
     wx.setStorageSync('cart', cache)
-
+    
     const goods = this.data.cart.data
     let totalPrice = 0
     let totalNum = 0
@@ -142,7 +156,7 @@ Page({
     if(size>=1){
       let s = this.data.cart.data;
       for (let index = 0; index < size; index++) {
-        console.log("this is ",s)
+   
         s[index].checked = change
       }
       const c ={
@@ -155,7 +169,7 @@ Page({
     }
 
     const goods = this.data.cart.data
-    console.log("goods",goods)
+   
     let totalPrice = 0
     let totalNum = 0
     goods.forEach(v=>{
@@ -175,14 +189,14 @@ Page({
     let that = this
     const gid = e.currentTarget.dataset.gid
     let app = getApp()
-    let setUrl = "https://"+app.globalData.ip+"/goods/detail?gid="+gid;
+    let setUrl = app.globalData.ip+"/goods/detail?gid="+gid;
     let inventory = 0;
     async function getDetail(){
       try{
         const res = await request({url:setUrl});
-        console.log(res)
+  
         inventory = res.data.inventory;
-        console.log("连接后为",inventory)
+     
       }catch(err){
         console.log(err);
       }
@@ -256,14 +270,14 @@ Page({
     let that = this
     const gid = e.currentTarget.dataset.gid
     let app = getApp()
-    let setUrl = "https://"+app.globalData.ip+"/goods/detail?gid="+gid;
+    let setUrl = app.globalData.ip+"/goods/detail?gid="+gid;
     let inventory = 0;
     async function getDetail(){
       try{
         const res = await request({url:setUrl});
-        console.log(res)
+   
         inventory = res.data.inventory;
-        console.log("连接后为",inventory)
+
       }catch(err){
         console.log(err);
       }
@@ -331,9 +345,9 @@ Page({
   
   onHide: function () {
     let app = getApp()
-    let cartUrl = "https://"+app.globalData.ip+"/cart/setcart";
+    let cartUrl = app.globalData.ip+"/cart/setcart";
     const carts = wx.getStorageSync('cart');
-    if(carts){
+    if(carts.data.data){
       request({url:cartUrl,data:carts.data.data,method:"post",header:{ "accept": "*/*","content-type": "application/json" }});
     }
     
@@ -344,10 +358,10 @@ Page({
    */
   onUnload: function () {
     let app = getApp()
-    let cartUrl = "https://"+app.globalData.ip+"/cart/setcart";
+    let cartUrl = app.globalData.ip+"/cart/setcart";
     const carts = wx.getStorageSync('cart');
-    if(carts){
-      request({url:cartUrl,data:carts,method:"post",header:{ "accept": "*/*","content-type": "application/json" }});
+    if(carts.data.data){
+      request({url:cartUrl,data:carts.data.data,method:"post",header:{ "accept": "*/*","content-type": "application/json" }});
       wx.setStorageSync('cart', "");
     }
   },
@@ -378,9 +392,9 @@ Page({
             befCache.time=Date.now()
             wx.setStorageSync('cart', befCache)
             let app = getApp()
-            let cartUrl = "https://"+app.globalData.ip+"/cart/setcart";
+            let cartUrl = app.globalData.ip+"/cart/setcart";
             const carts = wx.getStorageSync('cart');
-            console.log("carts: ",carts);
+      
             request({url:cartUrl,data:carts.data.data,method:"post",header:{ "accept": "*/*","content-type": "application/json" }});
           }
         }else if(res.cancel){
@@ -391,28 +405,62 @@ Page({
   },
 
   handlePay(){
-    wx.showToast({
-      title: '暂无支付功能',
-      icon:"error"
-    })
-    // const totalNum = this.data.totalNum
-    // const totalPrice = this.data.totalPrice
-    // console.log(this.data.address.userName)
-    // if(this.data.address.userName===undefined){
-    //   wx.showToast({
-    //     title: '请先设置地址',
-    //     icon:"error"
-    //   })
-    // }else if(totalNum===0||totalPrice===0){
-    //   wx.showToast({
-    //     title: '请先选择商品',
-    //     icon:"error"
-    //   })
-    // }else{
-    //   wx.navigateTo({
-    //     url: '../pay/pay',
-    //   })
-    // }
+    let that = this
+    // wx.showToast({
+    //   title: '暂无支付功能',
+    //   icon:"error"
+    // })
+    const totalNum = this.data.totalNum
+    const totalPrice = this.data.totalPrice
+    if(this.data.address.userName===undefined){
+      wx.showToast({
+        title: '请先设置地址',
+        icon:"error"
+      })
+    }else if(totalNum===0||totalPrice===0){
+      wx.showToast({
+        title: '请先选择商品',
+        icon:"error"
+      })
+    }else{
+      const moveCart = [];
+
+      const cartData = that.data.cart.data
+      for (let index = 0; index < cartData.length; index++) {
+        const element = cartData[index];
+        if(element["checked"]==true){
+          moveCart.push(element["gid"])
+        }
+      }
+      let curCart = wx.getStorageSync('cart');
+      const bef = curCart.data.data.goods
+      let payCart = [];
+      for (let i = 0; i < moveCart.length; i++) {
+        const delGid = moveCart[i];
+        for (let j = 0; j < bef.length; j++) {
+          const element = bef[j];
+          if(element.gid==delGid){
+            payCart.push(bef[j])
+            bef.splice(j,1)
+          }
+          
+        }
+      }
+
+      curCart.data.data.goods=bef
+      wx.setStorageSync('cart', curCart)
+      const cache = {
+        data:payCart,
+        time:Date.now()
+      }
+      wx.setStorageSync('payCart', cache)
+
+      
+      wx.navigateTo({
+        url: '../pay/pay?totalPrice='+totalPrice+"&totalNum="+totalNum+"&address="+
+        JSON.stringify(this.data.address),
+      })
+    }
   },
 
 

@@ -11,17 +11,22 @@ Page({
   },
 
   onLoad: function (options) {
+    const phoneCheck = wx.getStorageSync('phone')
+    if(!phoneCheck){
+      wx.switchTab({
+        url: '../index/index',
+      })
+    }
     wx.showLoading();
-    let that = this;
+    var that = this;
     let app = getApp();
-    let setUrl = "https://"+app.globalData.ip+"/goods/detail?gid="+options["gid"];
+    let setUrl = app.globalData.ip+"/goods/detail?gid="+options["gid"];
     async function getDetail(){
       try{
-        const res = await request({url:setUrl});
-        const hide = await wx.hideLoading();
+        const res = await request({url:setUrl})
         /* 此处原用 that.data.goods_detail = res.data 
            进行赋值，但在request响应前就把此值给wxml页面渲染
-           造成页面空白，后采用setData */
+           造成页面空白，后采用setData */ 
         that.setData({
           goods_detail:res.data,
         })
@@ -31,8 +36,7 @@ Page({
     };
 
     const phone = wx.getStorageSync('phone')
-    let Url = "https://"+app.globalData.ip+"/cart/getcart?phone="+phone.data;
-    let cartUrl = "https://"+app.globalData.ip+"/cart/setcart"
+    let Url = app.globalData.ip+"/cart/getcart?phone="+phone.data;
     async function getCart(){
       try{
         const res = await request({url:Url});
@@ -49,23 +53,29 @@ Page({
 
 
     // 设置商品收藏
-    let setC = "https://"+app.globalData.ip+"/collect/check?phone="+phone.data;
+    let setC = app.globalData.ip+"/collect/check?phone="+phone.data;
     async function getCollect(){
       try{
-        const a  = await wx.showLoading();
+        // const a  = await wx.showLoading();
         const res = await request({url:setC});
-        const hide = await wx.hideLoading();
+        // const hide = await wx.hideLoading();
+
+        
+        if(res.data.collectGoodsList){
+          for (let i = 0; i < res.data.collectGoodsList.length; i++) {
+            if(res.data.collectGoodsList[i].gid==options["gid"]){
+              that.setData({
+                isCollect:true,
+              })
+            }
+          }
+        }else{
+          res.data.collectGoodsList=[]
+        }
 
         that.setData({
           collect:res.data,
         })
-        for (let i = 0; i < res.data.collectGoodsList.length; i++) {
-          if(res.data.collectGoodsList[i].gid==options["gid"]){
-            that.setData({
-              isCollect:true,
-            })
-          }
-        }
       }catch(err){
         console.log(err);
       }
@@ -74,40 +84,49 @@ Page({
 
     async function setCache(){
       const history = wx.getStorageSync('history')
-      let detail = that.data.goods_detail
-      const cache = {
-        gid:detail.gid,
-        title:detail.title,
-        price:detail.price,
-        photo:detail.photo
+      if(history){
+        let detail = that.data.goods_detail
+        const cache = {
+          gid:detail.gid,
+          title:detail.title,
+          price:detail.price,
+          photo:detail.photo
+        }
+        const len = history.length
+        if(len>=20){
+          history.pop()
+          history.splice(0,0,cache)
+        }else{
+          history.splice(0,0,cache)
+        }
+        wx.setStorageSync('history', history)
       }
-      const len = history.length
-      console.log("cache",cache)
-      if(len>=20){
-        history.pop()
-        history.splice(0,0,cache)
-      }else{
-        history.splice(0,0,cache)
-      }
-      wx.setStorageSync('history', history)
     }
-
     async function set(){
       const a = await getDetail();
       const b = await setCache();
+      wx.hideLoading();
     }
     set()
   },
 
   onShow: function(){
-
+    const phoneCheck = wx.getStorageSync('phone')
+    if(!phoneCheck){
+      wx.switchTab({
+        url: '../index/index',
+      })
+    }
   },
 
   onHide: function () {
-    let cartUrl =  "https://"+app.globalData.ip+"/cart/setcart";
+    let app = getApp();
+    let cartUrl =  app.globalData.ip+"/cart/setcart";
     const carts = wx.getStorageSync('cart');
-    console.log("carts: ",carts);
-    request({url:cartUrl,data:carts.data.data,method:"post",header:{ "accept": "*/*","content-type": "application/json" }});
+    if(carts.data.data){
+      request({url:cartUrl,data:carts.data.data,method:"post",header:{ "accept": "*/*","content-type": "application/json" }});
+      wx.setStorageSync('cart', "");
+    }
   },
 
   /**
@@ -115,13 +134,23 @@ Page({
    */
   onUnload: function () {
     let app = getApp()
-    let cartUrl = "https://"+app.globalData.ip+"/cart/setcart";
+    let cartUrl = app.globalData.ip+"/cart/setcart";
     const carts = wx.getStorageSync('cart');
-    request({url:cartUrl,data:carts.data.data,method:"post",header:{ "accept": "*/*","content-type": "application/json" }});
-    wx.setStorageSync('cart', "");
+    // if(!carts&&carts!=""){
+    //   request({url:cartUrl,data:carts.data.data,method:"post",header:{ "accept": "*/*","content-type": "application/json" }});
+    //   wx.setStorageSync('cart', "");
+    // }
+    if(carts.data.data){
+      request({url:cartUrl,data:carts.data.data,method:"post",header:{ "accept": "*/*","content-type": "application/json" }});
+      wx.setStorageSync('cart', "");
+    }
+    
     const collects = this.data.collect;
-    let setCollect = "https://"+app.globalData.ip+"/collect/setCheck";
-    request({url:setCollect,data:collects,method:"post",header:{ "accept": "*/*","content-type": "application/json" }});
+    if(collects){
+      let setCollect = app.globalData.ip+"/collect/setCheck";
+      request({url:setCollect,data:collects,method:"post",header:{ "accept": "*/*","content-type": "application/json" }});
+    }
+    
   },
 
   handlePreviewImage(e){
@@ -137,8 +166,8 @@ Page({
     let app = getApp()
     let that = this;
     const phone = wx.getStorageSync('phone')
-    let setUrl = "https://"+app.globalData.ip+"/cart/getcart?phone="+phone.data;
-    let cartUrl = "https://"+app.globalData.ip+"/cart/setcart";
+    let setUrl = app.globalData.ip+"/cart/getcart?phone="+phone.data;
+    let cartUrl = app.globalData.ip+"/cart/setcart";
     async function getCart(){
       try{
         const res = await request({url:setUrl});
@@ -233,8 +262,8 @@ Page({
     let app = getApp()
     let that = this;
     const phone = wx.getStorageSync('phone')
-    let setUrl = "https://"+app.globalData.ip+"/cart/getcart?phone="+phone.data;
-    let cartUrl = "https://"+app.globalData.ip+"/cart/setcart";
+    let setUrl = app.globalData.ip+"/cart/getcart?phone="+phone.data;
+    let cartUrl = app.globalData.ip+"/cart/setcart";
     async function getCart(){
       try{
         const res = await request({url:setUrl});
@@ -257,15 +286,18 @@ Page({
           const c = await checkCart();
         }else{
           let ishere = false
-          let maxLen = carts.data.data.goods.length
-          for (var i=0;i<carts.data.data.goods.length;i++){ 
-            const goods = carts.data.data.goods[i];
-            if(that.data.goods_detail["gid"]===goods.gid){
-              ishere = true
-              goods.amount++;
-              carts.data.data.goods[i] = goods;
+          if(carts.data.data.goods){
+            let maxLen = carts.data.data.goods.length
+            for (var i=0;i<carts.data.data.goods.length;i++){ 
+              const goods = carts.data.data.goods[i];
+              if(that.data.goods_detail["gid"]===goods.gid){
+                ishere = true
+                goods.amount++;
+                carts.data.data.goods[i] = goods;
+              }
             }
           }
+          
           if(!ishere){
             const good_detail = that.data.goods_detail
             const newGood = {
@@ -276,8 +308,25 @@ Page({
               title:good_detail.title,
               checked:false
             }
-            carts.data.data.goods[maxLen]=newGood
-            maxLen++
+            if(carts.data.data.goods){
+              const goods = carts.data.data.goods;
+              goods.push(newGood);
+              carts.data.data.goods = goods
+
+            }else{
+              const phone = wx.getStorageSync('phone')
+              let goods = carts.data.data
+              goods = {
+                goods:[newGood],
+                phone:phone.data
+              }
+              carts.data.data = goods
+
+              console.log("goods",goods)
+
+            }
+
+
             ishere=true
           }
           wx.setStorageSync('cart', carts);

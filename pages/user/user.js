@@ -76,12 +76,12 @@ Page({
     let that = this;
     let app = getApp()
     const phone = wx.getStorageSync('phone')
-    let Url = "https://"+app.globalData.ip+"/collect/check?phone="+phone.data;
+    let Url = app.globalData.ip+"/collect/check?phone="+phone.data;
     async function getCart(){
       try{
-        const a  = await wx.showLoading();
+        // const a  = await wx.showLoading();
         const res = await request({url:Url});
-        const hide = await wx.hideLoading();
+        // const hide = await wx.hideLoading();
         that.setData({
           collectNum:res.data.collectGoodsList.length,
         })

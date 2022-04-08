@@ -23,7 +23,7 @@
                 <view class="goods_price_wrap">
                     <view class="goods_price"><text class="goods_price_sign">￥</text>{{item.price}}</view>
                     <view class="cart_num_tool">
-                      <view class="goods_num">{{item.amount}}</view>
+                      <view class="goods_num">x{{item.amount}}</view>
                     </view>
                 </view>
             </view>

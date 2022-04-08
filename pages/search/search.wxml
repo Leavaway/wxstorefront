@@ -1,2 +1,9 @@
 <!--pages/search/search.wxml-->
-<text>pages/search/search.wxml</text>
+<view class="search_row">
+  <input placeholder="请输入您要搜索的商品" bindblur="hindleSearch"> </input>
+</view>
+<view class="search_content">
+  <view class="search_item">
+  This is simple test
+  </view>
+</view>
